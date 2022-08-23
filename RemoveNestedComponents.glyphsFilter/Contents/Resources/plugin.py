@@ -16,6 +16,7 @@ import objc
 from GlyphsApp import *
 from GlyphsApp.plugins import *
 
+
 class RemoveNestedComponents(FilterWithoutDialog):
 	
 	@objc.python_method
@@ -32,8 +33,7 @@ class RemoveNestedComponents(FilterWithoutDialog):
 
 	@objc.python_method
 	def filter(self, layer, inEditView, customParameters):
-		
-		# Apply your filter code here
+
 		if not layer.components:
 			return
 		nested_components = True
@@ -41,7 +41,8 @@ class RemoveNestedComponents(FilterWithoutDialog):
 			for component in layer.components:
 				ref_layer = component.component.layers[0]
 				if len(ref_layer.components):
-					component.automaticAlignment = False
+					for other_component in layer.components:
+						other_component.automaticAlignment = False
 					component.decompose()
 					nested_components = True
 				else:
