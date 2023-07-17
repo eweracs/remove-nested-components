@@ -33,12 +33,13 @@ class RemoveNestedComponents(FilterWithoutDialog):
 
 	@objc.python_method
 	def filter(self, layer, inEditView, customParameters):
-
 		if not layer.components:
 			return
 		nested_components = True
 		while nested_components:
 			for component in layer.components:
+				if component.component is None:
+					continue
 				ref_layer = component.component.layers[0]
 				if len(ref_layer.components):
 					for other_component in layer.components:
